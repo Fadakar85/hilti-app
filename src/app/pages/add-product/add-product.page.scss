@@ -1,0 +1,13 @@
+.uploadedImages{
+    width: 75%;
+    height: auto;
+    background-color: #5e5e5e;
+    z-index: 100;
+}
+.gallery-img{
+    z-index: 101;
+}
+.selected-img{
+    z-index: 103;
+    background-color: #5e5e5e;
+}

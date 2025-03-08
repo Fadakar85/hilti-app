@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Product Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-spinner *ngIf="loading"></ion-spinner>
+
+  <ion-card *ngIf="errorMessage">
+    <ion-card-content>
+      <p>{{ errorMessage }}</p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="product">
+    <img *ngIf="product?.imageUrl" [src]="product?.imageUrl" alt="Product Image" />
+
+    <ion-card-header>
+      <ion-card-title>{{ product?.name }}</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <p>{{ product?.description }}</p>
+      <p><strong>Price:</strong> ${{ product?.price }}</p>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

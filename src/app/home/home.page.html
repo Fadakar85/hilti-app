@@ -1,0 +1,48 @@
+<!-- منو -->
+<ion-menu side="start" menuId="first" contentId="main-content">
+  <ion-header class="hilti-header">
+    <ion-toolbar class="hilti-toolbar">
+      <ion-title class="text-end">Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="hilti-content">
+    <ion-list class="">
+      <ion-item button class="font-vazir d-flex flex-wrap sidebar-list hilti-button d-flex justify-content-end" (click)="openShopList()"><ion-text class="w-100 text-end">فروشگاه</ion-text></ion-item>
+      <ion-list class="w-100 shop-list">
+        <ion-item button class="font-vazir"><ion-text class="w-100 text-end">ابزار برقی</ion-text></ion-item>
+        <ion-item button class="font-vazir"><ion-text class="w-100 text-end">ابزار اندازه گیری</ion-text></ion-item>
+        <ion-item button class="font-vazir"><ion-text class="w-100 text-end">مته</ion-text></ion-item>
+        <ion-item button class="font-vazir"><ion-text class="w-100 text-end">سیستم میخکوب ها</ion-text></ion-item>
+        <ion-item button class="font-vazir"><ion-text class="w-100 text-end">ابزار کُرگیری</ion-text></ion-item>
+      </ion-list>
+      <ion-item button id="lister" class="sidebar-list hilti-button font-vazir"><ion-text class="w-100 text-end">حساب کاربری من</ion-text></ion-item>
+      <ion-item button class="sidebar-list hilti-button font-vazir"><ion-text class="w-100 text-end">خدمات تعمیرات</ion-text></ion-item>
+      <ion-item button class="sidebar-list hilti-button font-vazir"><ion-text class="w-100 text-end">سبد خرید</ion-text></ion-item>
+      <ion-item button class="sidebar-list hilti-button font-vazir"><ion-text class="w-100 text-end">درباره ما</ion-text></ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<!-- محتوای اصلی -->
+<ion-header [translucent]="true" class="hilti-header header-shadow">
+  <ion-toolbar class="hilti-toolbar">
+    <ion-buttons slot="start" class="hilti-button">
+      <ion-menu-button></ion-menu-button> <!-- دکمه باز کردن منو -->
+    </ion-buttons>
+    
+    <ion-title class="font-vazir" slot="end">
+      هیلتی حیدری
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" id="main-content" class="hilti-content">
+  <ion-header collapse="condense" class="hilti-header">
+    <ion-toolbar class="hilti-toolbar">
+      <ion-title size="large" slot="end">هیلتی حیدری</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  
+
+</ion-content>

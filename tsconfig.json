@@ -1,0 +1,47 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist",
+    "rootDir": "./",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "Node",
+    "importHelpers": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ESNext",
+    "module": "ESNext",
+    "lib": [
+      "es2018", 
+      "dom"
+    ],
+    "useDefineForClassFields": false
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  },
+  "include": [
+    "src/**/*.ts",
+    "server/**/*.ts",
+    "server/**/*",
+    "server/env.d.ts",
+    "custom.d.ts"
+  ],
+  "exclude": [
+  "node_modules"
+  ]
+}

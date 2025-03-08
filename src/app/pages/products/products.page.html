@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Product List</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let product of products" (click)="showProductDetails(product)">
+      <ion-thumbnail slot="start">
+        <img [src]="product.imageUrl" alt="Product Image" />
+      </ion-thumbnail>
+      <ion-label>
+        <h2>{{ product.name || 'No Name' }}</h2>
+        <p>{{ product.description || 'No Description Available' }}</p>
+        <p><strong>Price:</strong> ${{ product.price || '0.00' }}</p>
+      </ion-label>
+      <ion-button fill="clear" (click)="showProductDetails(product)">
+        View
+      </ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<div *ngIf="selectedProduct" class="product-details-container">
+  <div class="details-content">
+    <h2>{{ selectedProduct.name || 'No Name' }}</h2>
+    <img [src]="selectedProduct?.imageUrl || 'http://localhost:3000/uploads/placeholder.jpg'" alt="{{ selectedProduct.name }}">
+    <p><strong>Price:</strong> ${{ selectedProduct.price || '0.00' }}</p>
+    <p><strong>Description:</strong> {{ selectedProduct.description || 'No Description Available' }}</p>
+    <ion-button expand="full" color="danger" (click)="closeProductDetails()">Close</ion-button>
+  </div>
+</div>

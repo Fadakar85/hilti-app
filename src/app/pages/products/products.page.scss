@@ -1,0 +1,30 @@
+/* 🟢 استایل برای container جزئیات محصول */
+.product-details-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  .details-content {
+    background: #bdbdbd;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 400px;
+    text-align: center;
+  }
+  
+  .details-content img {
+    width: 100%;
+    max-height: 200px;
+    object-fit: cover;
+    margin-bottom: 15px;
+  }
+  

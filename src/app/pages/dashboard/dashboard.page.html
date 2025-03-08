@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>داشبورد</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngIf="dashboardData">
+    <ion-card-header>
+      <ion-card-title>داده‌های داشبورد</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <pre>{{ dashboardData | json }}</pre>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

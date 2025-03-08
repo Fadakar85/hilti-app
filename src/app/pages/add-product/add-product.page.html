@@ -1,0 +1,104 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>افزودن محصول</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding position-relative">
+  <input type="file" (change)="onFileSelected($event)">
+  <ion-button (click)="uploadImage()">آپلود عکس</ion-button>
+  <!-- فرم افزودن/ویرایش محصول -->
+  <form *ngIf="showAddForm" (ngSubmit)="editingProductId ? updateProduct() : addProduct()">
+    
+    <!-- انتخاب فایل برای آپلود -->
+    
+
+    <!-- نام محصول -->
+    <ion-item>
+      <ion-label position="floating">نام محصول</ion-label>
+      <ion-input [(ngModel)]="name" name="name" required></ion-input>
+    </ion-item>
+
+    <!-- قیمت محصول -->
+    <ion-item>
+      <ion-label position="floating">قیمت</ion-label>
+      <ion-input [(ngModel)]="price" name="price" required type="number"></ion-input>
+    </ion-item>
+
+    <!-- توضیحات محصول -->
+    <ion-item>
+      <ion-label position="floating">توضیحات</ion-label>
+      <ion-textarea [(ngModel)]="description" name="description"></ion-textarea>
+    </ion-item>
+
+    <ion-button (click)="toggleImageGallery()">انتخاب تصویر از آپلود شده‌ها</ion-button>
+    
+    <!-- نمایش پیش‌نمایش تصویر -->
+    <div *ngIf="imageUrl">
+      <img [src]="imageUrl" alt="Product Image" class="product-image-preview">
+    </div> <!-- ✅ تغییر داده شد -->
+
+    <!-- دکمه ارسال فرم -->
+    <ion-button expand="full" type="submit">
+      {{ editingProductId ? 'ویرایش محصول' : 'افزودن محصول' }}
+    </ion-button>
+  </form>
+
+  
+
+  <!-- دکمه برای نمایش/پنهان کردن فرم -->
+  <ion-button expand="full" (click)="toggleAddForm()">
+    {{ showAddForm ? 'بستن فرم' : 'نمایش فرم افزودن محصول' }}
+  </ion-button>
+
+  <ion-button (click)="toggleImageGallery1()">عکس های فروشگاه</ion-button>
+
+  <!-- لیست محصولات -->
+  <ion-list>
+    <ion-item *ngFor="let product of products">
+      <ion-label>
+        <h2>{{ product.name }}</h2>
+        <p>قیمت: {{ product.price }} تومان</p>
+      </ion-label>
+      <!-- دکمه ویرایش محصول -->
+      <ion-button color="warning" (click)="editProduct(product)">ویرایش</ion-button>
+      <!-- دکمه حذف محصول -->
+      <ion-button color="danger" (click)="deleteProduct(product.id)">حذف</ion-button>
+    </ion-item>
+    
+  </ion-list>
+
+  <div *ngIf="showGallery" class="uploadedImages position-absolute top-50 start-50 translate-middle p-3 rounded-3 image-gallery">
+    <label>انتخاب تصویر از آپلود شده‌ها:</label>
+    <div class="row row-cols-2 gallery-content">
+        <img *ngFor="let img of uploadedImages"
+             [src]="'http://localhost:3000/uploads/' + img"
+             class="gallery-img col pt-2 pb-2"
+             (click)="selectUploadedImage(img)" />
+    </div>
+    <ion-button (click)="toggleImageGallery()">بستن</ion-button>
+  </div>
+
+  <div *ngIf="showGallery1" class="uploadedImages position-absolute top-50 start-50 translate-middle p-3 rounded-3 image-gallery">
+    <label>انتخاب تصویر از آپلود شده‌ها:</label>
+    <div class="">
+      <div class="row row-cols-2 gallery-content">
+        <div *ngFor="let img of uploadedImages" class="gallery-img col pt-2 pb-2">
+          <img 
+               [src]="'http://localhost:3000/uploads/' + img"
+               class=""
+               (click)="selectUploadedImage1(img)"/>
+        </div>
+      </div>
+      <div *ngIf="imageUrl" class="selected-img position-absolute top-50 start-50 translate-middle w-100 p-3 rounded-3">
+        <label>تصویر انتخاب شده:</label>
+        <div class="selected-image-container">
+          <ion-button (click)="closeSelectedImage()" class="close-image-btn">بستن</ion-button>
+          <img [src]="imageUrl" class="selected-image" />
+          <ion-button (click)="removeImage()" class="remove-image-btn">حذف تصویر انتخاب شده</ion-button>
+        </div>
+      </div>
+    </div>
+    <ion-button (click)="toggleImageGallery1()">بستن</ion-button>
+  </div>
+</ion-content>
