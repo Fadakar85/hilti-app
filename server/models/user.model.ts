@@ -13,8 +13,6 @@ export interface User {
 // ایجاد کاربر جدید
 export const createUser = async (phone: string, password: string, role: 'user' | 'admin' = 'user'): Promise<void> => {
   try {
-    phone = String(phone).trim();
-
     console.log("📌 createUser function called!");
     console.log("🔹 Phone:", phone);
     console.log("🔹 Raw Password Before Hashing:", password);
@@ -25,15 +23,14 @@ export const createUser = async (phone: string, password: string, role: 'user' |
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    console.log("🔹 Hashed Password:", hashedPassword);
+    console.log("🔐 Hashed Password:", hashedPassword);
 
     const query = 'INSERT INTO users (phone, password, role) VALUES (?, ?, ?)';
     const [result] = await db.execute(query, [phone, hashedPassword, role]);
 
     console.log("✅ User created successfully:", result);
   } catch (error) {
-    console.error("❌ Error inserting user:", error);
-    throw error;
+    console.error("❌ Error in createUser:", error);
   }
 };
 
@@ -42,16 +39,21 @@ export const createUser = async (phone: string, password: string, role: 'user' |
 
 // پیدا کردن کاربر بر اساس شماره تلفن
 export const findUserByPhone = async (phone: string): Promise<User | undefined> => {
-  phone = String(phone).trim();
-  console.log("📌 Searching for phone (without modification):", phone);
+  try {
+    const query = 'SELECT * FROM users WHERE phone = ?';
+    const [rows]: any = await db.execute(query, [phone]);
 
-  const query = `SELECT * FROM users WHERE BINARY phone = ?`;
-  console.log("📌 Running Query:", query, "With Parameter:", phone);
-
-  const [rows]: [RowDataPacket[], any] = await db.execute(query, [phone]);
-
-  console.log("📌 Query executed, result:", rows);
-  return rows[0] as User | undefined;
+    if (rows.length > 0) {
+      console.log("🔍 User found in database:", rows[0]);
+      return rows[0]; // کاربر پیدا شد
+    } else {
+      console.log("❌ User not found in database.");
+      return; // کاربر وجود ندارد
+    }
+  } catch (error) {
+    console.error("❌ Error in findUserByPhone:", error);
+    return;
+  }
 };
 
 

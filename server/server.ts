@@ -22,6 +22,7 @@ app.use(bodyParser.json());
 dotenv.config();
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
+console.log("🚀 Server is running and auth routes are loaded!");
 
 const db = mysql.createConnection({
   host: 'localhost',

@@ -3,8 +3,10 @@ import express, { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { createUser, findUserByPhone, comparePassword } from '../models/user.model.js';  // فرض بر این است که این مدل‌ها در مسیر صحیح قرار دارند.
+import { register } from '../controllers/authController';
 
 const router = express.Router();
+router.post('/register', register); // 📌 مسیر ثبت‌نام جدید
 
 // ثبت‌نام کاربر
 router.post('/register', async (req: Request, res: any) => {
