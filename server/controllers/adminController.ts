@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { updateUserRole, findUserByPhone } from '../models/user.model';
+import { updateUserRole, findUserByPhone } from '../models/user.model.js';
 
 // تغییر نقش کاربر به ادمین
 export const assignAdmin = async (req: Request, res: Response): Promise<void> => {
   const { phone } = req.body;
-
+  
   // چک کردن اینکه کاربر موجود است
   const user = await findUserByPhone(phone);
   if (!user) {

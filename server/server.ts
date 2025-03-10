@@ -10,8 +10,9 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import Router from 'express';
 import { fileURLToPath } from 'url';
-import authRoutes from './routes/auth.routes';
-import adminRoutes from './routes/admin.routes';
+import authRoutes from './routes/auth.routes.js';
+import adminRoutes from './routes/admin.routes.js';
+import { dirname, resolve } from 'path';
 
 const app = express();
 const router = Router();
@@ -25,7 +26,7 @@ app.use('/api/admin', adminRoutes);
 const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'B@h702600$#@',
+  password: 'B@h702600$',
   database: 'hilti_store'
 });
 
@@ -224,8 +225,12 @@ app.delete('/delete-image/:imageName', (req: Request, res: Response) => { // ت�
 });
 
 
+dotenv.config({ path:   resolve(__dirname, '../../.env') });
+
+
 app.post('/register', async (req: any, res: any) => { // تغییر
   const { phone, password } = req.body;
+  console.log("📌 Register request received:", req.body);
 
   if (!phone || !password) {
     return res.status(400).json({ error: 'شماره تلفن و رمز عبور الزامی است' });
@@ -279,6 +284,11 @@ app.delete('/users/:id', (req: any, res: any) => {
   });
 });
 
+app.get('/api/dashboard', (req, res) => {
+  res.json({ message: 'داشبورد در دسترس است!' });
+});
 
-
-app.listen(3000, () => console.log('Server running on http://localhost:3000'));
+console.log("DB Config at Server:", process.env.DB_HOST, process.env.DB_USER, process.env.DB_NAME);
+console.log("Server running on port:", process.env.PORT);
+const port = process.env.PORT || 5000;
+app.listen(port, () => console.log(`✅ Server running on http://localhost:${port}`));

@@ -1,4 +1,4 @@
-import db from '../database/db';
+import db from '../database/db.js';
 import bcrypt from 'bcrypt';
 import { ResultSetHeader, RowDataPacket } from 'mysql2';
 
@@ -12,21 +12,60 @@ export interface User {
 
 // ایجاد کاربر جدید
 export const createUser = async (phone: string, password: string, role: 'user' | 'admin' = 'user'): Promise<void> => {
-  const hashedPassword = await bcrypt.hash(password, 10);
-  const query = 'INSERT INTO users (phone, password, role) VALUES (?, ?, ?)';
-  await db.execute(query, [phone, hashedPassword, role]);
+  try {
+    phone = String(phone).trim();
+
+    console.log("📌 createUser function called!");
+    console.log("🔹 Phone:", phone);
+    console.log("🔹 Raw Password Before Hashing:", password);
+
+    if (!password) {
+      console.error("❌ Error: Password is undefined!");
+      return;
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    console.log("🔹 Hashed Password:", hashedPassword);
+
+    const query = 'INSERT INTO users (phone, password, role) VALUES (?, ?, ?)';
+    const [result] = await db.execute(query, [phone, hashedPassword, role]);
+
+    console.log("✅ User created successfully:", result);
+  } catch (error) {
+    console.error("❌ Error inserting user:", error);
+    throw error;
+  }
 };
+
+
+
 
 // پیدا کردن کاربر بر اساس شماره تلفن
 export const findUserByPhone = async (phone: string): Promise<User | undefined> => {
-    const query = 'SELECT * FROM users WHERE phone = ?';
-    const [rows]: [RowDataPacket[], any] = await db.execute(query, [phone]); // استفاده از any برای FieldPacket
-    return rows[0] as User | undefined; // تبدیل به نوع User
+  phone = String(phone).trim();
+  console.log("📌 Searching for phone (without modification):", phone);
+
+  const query = `SELECT * FROM users WHERE BINARY phone = ?`;
+  console.log("📌 Running Query:", query, "With Parameter:", phone);
+
+  const [rows]: [RowDataPacket[], any] = await db.execute(query, [phone]);
+
+  console.log("📌 Query executed, result:", rows);
+  return rows[0] as User | undefined;
 };
+
+
 
 // مقایسه رمز عبور وارد شده با رمز عبور ذخیره‌شده
 export const comparePassword = async (inputPassword: string, storedPassword: string): Promise<boolean> => {
-  return bcrypt.compare(inputPassword, storedPassword);
+  console.log("📌 Comparing passwords:");
+  console.log("🔹 Input Password:", inputPassword);
+  console.log("🔹 Stored Password (Hashed):", storedPassword);
+
+  const result = await bcrypt.compare(inputPassword, storedPassword);
+  console.log("📌 Password comparison result:", result);
+
+  return result;
 };
 
 // به روز رسانی نقش کاربر

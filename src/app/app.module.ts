@@ -14,6 +14,7 @@ import { AddProductPage } from './pages/add-product/add-product.page';
 import { ViewProductsPage } from './pages/products/products.page';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from './services/auth.service';
 // Import the functions you need from the SDKs you need
 
 
