@@ -22,5 +22,10 @@ export class AuthService {
       { headers: { 'Content-Type': 'application/json' } }  // ✅ تنظیم `Content-Type`
     ).toPromise();
   }
+
+  async getCurrentUser() {
+    return this.currentUser; // یا می‌توانید از یک Promise استفاده کنید
+  }
+  private currentUser: any;  
   // متدهای دیگر سرویس احراز هویت (مثلاً، بازیابی رمز عبور، تغییر رمز عبور و غیره)  
 }

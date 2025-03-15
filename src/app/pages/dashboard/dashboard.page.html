@@ -5,12 +5,12 @@
 </ion-header>
 
 <ion-content>
-  <ion-card *ngIf="dashboardData">
-    <ion-card-header>
-      <ion-card-title>داده‌های داشبورد</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <pre>{{ dashboardData | json }}</pre>
-    </ion-card-content>
-  </ion-card>
+  <ion-segment [(ngModel)]="selectedTab">
+    <ion-segment-button value="products">
+      محصولات من
+    </ion-segment-button>
+    <ion-segment-button value="add-product" (click)="goToAddProduct()">
+      افزودن محصول
+    </ion-segment-button>
+  </ion-segment>
 </ion-content>

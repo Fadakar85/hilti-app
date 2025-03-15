@@ -8,6 +8,9 @@ import { IonicModule } from '@ionic/angular';
 import { HttpClientModule } from '@angular/common/http';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { ProductService } from '../../services/product.service';
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -17,21 +20,28 @@ import { ProductService } from '../../services/product.service';
 })
 export class DashboardPage implements OnInit {
   dashboardData: any = {};
+  selectedTab: string = 'products';  // ✅ مقدار اولیه برای انتخاب تب
+  userProducts: any[] = [];
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private router: Router, private productService: ProductService, private authService: AuthService, private alertController: AlertController) {}
 
   ngOnInit() {
-    this.loadDashboardData();
+    this.loadUserProducts();
   }
 
-  loadDashboardData() {
-    this.apiService.getDashboardData().then(
-      (data) => {
-        this.dashboardData = data;
-      },
-      (error) => {
-        console.error('خطا در دریافت داده‌ها:', error);
+  async loadUserProducts() {
+    try {
+      const user = await this.authService.getCurrentUser();
+      if (!user) {
+        this.router.navigate(['/login']);
+        return;
       }
-    );
+      this.userProducts = await this.productService.getUserProducts(user.id);
+    } catch (error) {
+      console.error("❌ خطا در گرفتن محصولات:", error);
+    }
+  }
+  goToAddProduct() {
+    this.router.navigate(['/add-product']);
   }
 }
