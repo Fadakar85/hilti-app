@@ -39,6 +39,8 @@ const db = mysql.createPool({
   queueLimit: 0
 });
 
+
+
 db.getConnection()
   .then(() => console.log("✅ اتصال به دیتابیس برقرار شد!"))
   .catch(err => console.error("❌ خطا در اتصال به دیتابیس:", err.message, err.sqlState, err.code));
