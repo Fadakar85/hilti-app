@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:5000/api/auth'; // مسیر سرور
+  private apiUrl = 'http://localhost:5000/api/auth'; // مسیر صحیح API ثبت‌نام
 
   constructor(private http: HttpClient) {}
 
@@ -14,7 +14,13 @@ export class AuthService {
     return this.http.post<{ token: string }>(`${this.apiUrl}/login`, { phone, password });
   }
 
-  register(phone: string, password: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/register`, { phone, password });
+  register(phone: string, password: string) {
+    console.log("📤 ارسال درخواست ثبت‌نام:", { phone, password });
+  
+    return this.http.post('http://localhost:5000/api/auth/register', 
+      { phone, password }, 
+      { headers: { 'Content-Type': 'application/json' } }  // ✅ تنظیم `Content-Type`
+    ).toPromise();
   }
+  // متدهای دیگر سرویس احراز هویت (مثلاً، بازیابی رمز عبور، تغییر رمز عبور و غیره)  
 }

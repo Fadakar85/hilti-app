@@ -3,7 +3,7 @@ import express, { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { createUser, findUserByPhone, comparePassword } from '../models/user.model.js';  // فرض بر این است که این مدل‌ها در مسیر صحیح قرار دارند.
-import { register } from '../controllers/authController.js';
+import { login, register } from '../controllers/authController.js';
 
 const router = express.Router();
 router.post('/register', register); // 📌 مسیر ثبت‌نام جدید
@@ -24,10 +24,7 @@ router.post('/register', async (req: Request, res: any) => {
   }
 
   // هش کردن رمز عبور
-  const hashedPassword = await bcrypt.hash(password, 10);
-
-  // ذخیره‌سازی کاربر جدید در دیتابیس
-  await createUser(phone, hashedPassword);
+  const hashedPassword: string = await bcrypt.hash(password, 10) as string;
 
   res.status(201).json({ message: 'ثبت‌نام با موفقیت انجام شد' });
 });

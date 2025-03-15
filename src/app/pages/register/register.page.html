@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>ثبت نام</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  
+  <ion-item>
+    <ion-label position="floating">شماره تلفن</ion-label>
+    <ion-input type="text" name="phone" required (ionInput)="phone = ($event.detail.value || '').toString()"></ion-input>
+  </ion-item>
+  
+  <ion-item>
+    <ion-label position="floating">رمز عبور</ion-label>
+    <ion-input type="password" name="password" required (ionInput)="password = ($event.detail.value || '').toString()"></ion-input>
+  </ion-item>
+  
+  <ion-button expand="full" (click)="onRegister()">ثبت نام</ion-button>
+  
+  <ion-button expand="full" (click)="testValues()">تست مقدار</ion-button>
+   
+  
+  
+</ion-content>

@@ -1,4 +1,5 @@
 import db from '../database/db.js';
+import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import { ResultSetHeader, RowDataPacket } from 'mysql2';
 import { pool } from "../database/db.js";
@@ -15,19 +16,32 @@ export interface User {
 }
 
 // ایجاد کاربر جدید
-export const createUser = async (phone: string, password: string) => {
+const createUser = async (phone: string, password: string) => {  // ⚠ دیگر `req` و `res` را دریافت نمی‌کند
   try {
-      console.log("🛠 Creating new user with phone:", phone);
+      console.log("📌 Creating new user in database:", phone);
       const hashedPassword = await bcrypt.hash(password, 10);
-      const [result] = await pool.query<ResultSetHeader>("INSERT INTO users (phone, password) VALUES (?, ?)", [phone, hashedPassword]);
-      console.log("✅ User created successfully with ID:", result.insertId);
+      const [result]: any = await db.execute(
+          "INSERT INTO users (phone, password) VALUES (?, ?)", 
+          [phone, hashedPassword]
+      );
 
-      return result;
+      if (result && result.affectedRows > 0) {
+          console.log("✅ User successfully created!");
+          return { phone }; // ✅ فقط مقدار را برمی‌گرداند، نه `res.json()`
+      } else {
+          console.log("❌ Failed to create user.");
+          return null;
+      }
   } catch (error) {
-      console.error("❌ Error creating user:", error);
+      console.error("❌ Error in createUser:", error);
       throw error;
   }
 };
+
+
+
+export { createUser };
+
 
 
 
@@ -37,21 +51,27 @@ export const createUser = async (phone: string, password: string) => {
 export const findUserByPhone = async (phone: string) => {
   try {
       console.log("🔍 Searching for user in database:", phone);
-      const [rows]: any = await pool.query("SELECT * FROM users WHERE phone = ?", [phone]);
+
+      const [rows]: any = await pool.query(
+          "SELECT * FROM users WHERE phone = ?", 
+          [phone]
+      );
+
       console.log("📊 Query Result:", rows);
-      if (Array.isArray(rows) && rows.length > 0) {
-        console.log("✅ User found:", rows[0]);
-        return rows[0]; // کاربر را برگردان
-    } else {
-        console.log("❌ No user found.");
-        return null; // مقدار `null` برگردان
-    }
-      
+
+      if (rows.length === 0) {
+          console.log("❌ No user found.");
+          return null;
+      }
+
+      console.log("✅ User found:", rows[0]);
+      return rows[0];
   } catch (error) {
       console.error("❌ Error finding user:", error);
       throw error;
   }
 };
+
 
 
 

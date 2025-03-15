@@ -13,6 +13,7 @@ import { fileURLToPath } from 'url';
 import authRoutes from './routes/auth.routes.js';
 import adminRoutes from './routes/admin.routes.js';
 import { dirname, resolve } from 'path';
+import { pool } from "./database/db.js";
 
 const app = express();
 const router = Router();
@@ -22,6 +23,7 @@ app.use(bodyParser.json());
 dotenv.config();
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
+app.use(express.urlencoded({ extended: true }));
 console.log("🚀 Server is running and auth routes are loaded!");
 
 const db = mysql.createConnection({
